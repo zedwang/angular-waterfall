@@ -1,0 +1,64 @@
+/* Space out content a bit */
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.container {
+    /*width: 1024px;*/
+    margin: 0 auto;
+}
+.header {
+    border-bottom: 1px solid #cccccc;
+    padding: 10px 0;
+    text-align: center;
+    height: 25px;
+    line-height: 25px;
+}
+.waterfall-list {
+    /*width: 1024px;*/
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+}
+.waterfall-list li {
+    position: absolute;
+    left: 0;
+    top: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 5px;
+    overflow: hidden;
+
+}
+.waterfall-list li:after {
+    clear: both;
+}
+ .waterfall-list li .data-block {
+     border: 1px solid #cccccc;
+     border-radius: 5px;
+     padding: 5px;
+
+ }
+.waterfall-list li p {
+    font-size: 12px;
+    color: rgba(61, 61, 61, 0.93);
+}
+.clear {
+    clear: both;
+}
+.waterfall-list li img {
+    width: 100%;
+    height: 100%;
+}
+.loadMore {
+    cursor: pointer;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+}

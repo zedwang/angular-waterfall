@@ -1,0 +1,16 @@
+<div class="container">
+    <h1 class="header">angular-waterfall</h1>
+
+    <ul class="waterfall-list" ng-waterfall cols="6" col-margin="10">
+        <li ng-repeat="image in images" repeat-finished>
+            <div class="data-block">
+                <img src="{{image.url}}" alt="{{image.summary}}"/>
+                <p>{{image.title}}</p>
+                <p>{{image.summary}}</p>
+            </div>
+        </li>
+        <div class="loadMore" ng-if="loadMore" ng-infinite-scroll ng-click="loadMoreData()">{{text}}</div>
+    </ul>
+</div>
+
+
