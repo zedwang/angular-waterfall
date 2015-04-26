@@ -8,14 +8,20 @@
         .directive("repeatFinished",function($timeout){
             return {
                 restrict: "A",
-                link: function (scope,element) {
-                    element[0].style.opacity = "0";
-                    element[0].style["-moz-opacity"] = "0";
-                    element[0].style["filter"] = "alpha(opacity=0)";
+                require: "^ngWaterfall",
+                link: function (scope,element,attr,controller) {
+                    var speed = 0;
+                    if (!controller.state) {
+                        element[0].style.opacity = "0";
+                        element[0].style["-moz-opacity"] = "0";
+                        element[0].style["filter"] = "alpha(opacity=0)";
+                        speed = 200;
+                    }
+
                     if (scope.$last === true) {
                         $timeout(function(){
                             scope.$emit("repeatFinished");
-                        },200);
+                        },speed);
                     }
                 }
             }
@@ -43,6 +49,13 @@
                 scope: {
                     contentWidth : "@",
                     cols : "@"
+                },
+                controller: function($scope){
+                    var self = this;
+                    this.state = false;
+                    $scope.$on("loadMore",function(){
+                        self.state = true;
+                    })
                 },
                 link: function(scope,element){
                     scope.minCols = scope.cols || 6;
@@ -92,9 +105,9 @@
                             var index = getMinKeyByArray(scope.oLiHeight);
                             oLis[k].style.top = scope.oLiHeight[index] +"px";
                             oLis[k].style.left = colWidth * index +"px";
-                            oLis[k].style.opacity = "1";
-                            oLis[k].style["-moz-opacity"] = "1";
-                            oLis[k].style["filter"] = "alpha(opacity=100)";
+//                            oLis[k].style.opacity = "1";
+//                            oLis[k].style["-moz-opacity"] = "1";
+//                            oLis[k].style["filter"] = "alpha(opacity=100)";
                             scope.oLiHeight[index] = scope.oLiHeight[index] + parseInt(oLis[k].offsetHeight)
                         }
                         scope.$emit("colData",scope.oLiHeight);
