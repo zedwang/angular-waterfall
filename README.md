@@ -4,7 +4,6 @@ a responsive waterfall plugin of angular<br>
 
 # options
 * contentWidth(optional) 外层容器宽度，不设则auto
-* colMargin(optional) 列间距，默认10
 * cols(optional) 指定显示列数，默认6
 
 # example
@@ -17,7 +16,7 @@ a responsive waterfall plugin of angular<br>
 
 ```javascript
 
-<ul class="waterfall-list" ng-waterfall cols="6" col-margin="10">
+<ul class="waterfall-list" ng-waterfall cols="6">
         <li ng-repeat="image in images" repeat-finished>
             <div class="data-block">
                 <img src="{{image.url}}" alt="{{image.summary}}"/>
