@@ -61,8 +61,8 @@ angular.module('angularWaterfallApp',["ngWaterfall","ui.router"])
                 $scope.text = "点我加载更多···"
             },1500);
         };
-        $scope.$on("loadMore",function(){
-            $scope.loadMoreData();
-        })
+//        $scope.$on("loadMore",function(){//滚动自动填充事件
+//            $scope.loadMoreData();
+//        })
   })
 

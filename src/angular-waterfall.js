@@ -5,12 +5,17 @@
 (function(window,angular){
 
     angular.module('ngWaterfall',[])
-        .directive("repeatFinished",function(){
+        .directive("repeatFinished",function($timeout){
             return {
                 restrict: "A",
-                link: function (scope) {
+                link: function (scope,element) {
+                    element[0].style.opacity = "0";
+                    element[0].style["-moz-opacity"] = "0";
+                    element[0].style["filter"] = "alpha(opacity=0)";
                     if (scope.$last === true) {
-                        scope.$emit("repeatFinished");
+                        $timeout(function(){
+                            scope.$emit("repeatFinished");
+                        },200);
                     }
                 }
             }
@@ -37,23 +42,19 @@
                 restrict: "A",
                 scope: {
                     contentWidth : "@",
-                    colMargin : "@",
                     cols : "@"
                 },
                 link: function(scope,element){
                     scope.minCols = scope.cols || 6;
-                    scope.colMargin = scope.colMargin || 10;
                     $rootScope.$on("repeatFinished",function(){
                         $timeout.cancel();
-                        $timeout(function(){
-                            waterfall(scope.minCols,scope.colMargin);
-                        },5);
+                        waterfall(scope.minCols);
 
                     });
                     $window.onresize = function(){
                         $timeout.cancel();
                         $timeout(function(){
-                            waterfall(scope.minCols,scope.colMargin);
+                            waterfall(scope.minCols);
                         },200)
                     };
 
@@ -68,7 +69,7 @@
                             $window.onscroll = null;
                         }
                     }
-                    function waterfall(minCols,colMargin){
+                    function waterfall(minCols){
                         scope.wrapWidth = scope.contentWidth || element[0].offsetWidth;
                         scope.oLiHeight = [];//存每行的高度
                         var
@@ -77,17 +78,23 @@
                         colWidth = scope.wrapWidth/minCols;
                         for (var m = 0; m < oLis.length; m++){
                             oLis[m].style.width = colWidth + "px";
+                            oLis[m].style.opacity = "1";
+                            oLis[m].style["-moz-opacity"] = "1";
+                            oLis[m].style["filter"] = "alpha(opacity=100)";
                         }
                         for (var i = 0; i < minCols; i++){
                             oLis[i].style.top = 0;
-                            oLis[i].style.left = (i * colWidth) - colMargin + "px";
+                            oLis[i].style.left = i * colWidth + "px";
                             var h = parseInt(oLis[i].offsetHeight);
                             scope.oLiHeight.push(h);
                         }
                         for (var k = minCols; k < oLis.length; k++){
                             var index = getMinKeyByArray(scope.oLiHeight);
                             oLis[k].style.top = scope.oLiHeight[index] +"px";
-                            oLis[k].style.left = colWidth * index - colMargin +"px";
+                            oLis[k].style.left = colWidth * index +"px";
+                            oLis[k].style.opacity = "1";
+                            oLis[k].style["-moz-opacity"] = "1";
+                            oLis[k].style["filter"] = "alpha(opacity=100)";
                             scope.oLiHeight[index] = scope.oLiHeight[index] + parseInt(oLis[k].offsetHeight)
                         }
                         scope.$emit("colData",scope.oLiHeight);

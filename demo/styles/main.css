@@ -1,11 +1,11 @@
 /* Space out content a bit */
 body {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  margin: 0;
+    padding: 0;
 }
 
 .container {
-    /*width: 1024px;*/
+    width: 90%;
     margin: 0 auto;
 }
 .header {
