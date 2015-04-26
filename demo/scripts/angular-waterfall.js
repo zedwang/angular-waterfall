@@ -5,7 +5,7 @@
 (function(window,angular){
 
     angular.module('ngWaterfall',[])
-        .directive("repeatFinished",function($timeout){
+        .directive("waterfall:repeatFinished",function($timeout){
             return {
                 restrict: "A",
                 require: "^ngWaterfall",
@@ -20,7 +20,7 @@
 
                     if (scope.$last === true) {
                         $timeout(function(){
-                            scope.$emit("repeatFinished");
+                            scope.$emit("waterfall:repeatFinished");
                         },speed);
                     }
                 }
@@ -33,7 +33,7 @@
                 link:function(scope,element,attr,controller){
                     element[0].style.position = "absolute";
                     element[0].style.left = 0;
-                    $rootScope.$on("colData",function(ev,data){
+                    $rootScope.$on("waterfall:colData",function(ev,data){
                         var sorted = data.sort(function(a,b){
                             return a-b
                         });
@@ -53,13 +53,13 @@
                 controller: function($scope){
                     var self = this;
                     this.state = false;
-                    $scope.$on("loadMore",function(){
+                    $scope.$on("waterfall:loadMore",function(){
                         self.state = true;
                     })
                 },
                 link: function(scope,element){
                     scope.minCols = scope.cols || 6;
-                    $rootScope.$on("repeatFinished",function(){
+                    $rootScope.$on("waterfall:repeatFinished",function(){
                         $timeout.cancel();
                         waterfall(scope.minCols);
 
@@ -78,7 +78,7 @@
                         var clientHeight = $document[0].documentElement.clientHeight;
                         var scrollTop = document.documentElement.scrollTop > document.body.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop;
                         if (scrollTop + clientHeight >= short) {
-                            scope.$emit("loadMore");
+                            scope.$emit("waterfall:loadMore");
                             $window.onscroll = null;
                         }
                     }
@@ -110,7 +110,7 @@
 //                            oLis[k].style["filter"] = "alpha(opacity=100)";
                             scope.oLiHeight[index] = scope.oLiHeight[index] + parseInt(oLis[k].offsetHeight)
                         }
-                        scope.$emit("colData",scope.oLiHeight);
+                        scope.$emit("waterfall:colData",scope.oLiHeight);
                         $window.onscroll = scroll;
                     }
 

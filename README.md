@@ -33,7 +33,7 @@ a responsive waterfall plugin of angular<br>
 
 ```javascript
     page++;
-    $scope.$on("loadMore",function(){//滚动自动填充事件
+    $scope.$on("waterfall:loadMore",function(){//滚动自动填充事件
             $scope.loadMoreData();
     })
     
