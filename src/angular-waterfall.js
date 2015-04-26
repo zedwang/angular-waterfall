@@ -5,7 +5,7 @@
 (function(window,angular){
 
     angular.module('ngWaterfall',[])
-        .directive("waterfall:repeatFinished",function($timeout){
+        .directive("repeatFinished",function($timeout){
             return {
                 restrict: "A",
                 require: "^ngWaterfall",
