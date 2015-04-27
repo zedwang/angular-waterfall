@@ -10,18 +10,16 @@
                 restrict: "A",
                 require: "^ngWaterfall",
                 link: function (scope,element,attr,controller) {
-                    var speed = 0;
                     if (!controller.state) {
                         element[0].style.opacity = "0";
                         element[0].style["-moz-opacity"] = "0";
                         element[0].style["filter"] = "alpha(opacity=0)";
-                        speed = 200;
                     }
 
                     if (scope.$last === true) {
-                        $timeout(function(){
+                        angular.element(element).ready(function(){
                             scope.$emit("waterfall:repeatFinished");
-                        },speed);
+                        });
                     }
                 }
             }
@@ -43,7 +41,7 @@
                 }
             }
         })
-        .directive("ngWaterfall",function($window,$document,$rootScope,$timeout){
+        .directive("ngWaterfall",function($window,$document,$rootScope,$timeout,$log){
             return {
                 restrict: "A",
                 scope: {
@@ -68,7 +66,7 @@
                         $timeout.cancel();
                         $timeout(function(){
                             waterfall(scope.minCols);
-                        },200)
+                        },500)
                     };
 
 
@@ -111,6 +109,11 @@
                             scope.oLiHeight[index] = scope.oLiHeight[index] + parseInt(oLis[k].offsetHeight)
                         }
                         scope.$emit("waterfall:colData",scope.oLiHeight);
+                        var sorted = scope.oLiHeight.sort(function(a,b){
+                            return a-b
+                        });
+                        var max = sorted[sorted.length - 1];
+                        element[0].style.height = max + 30 + "px";
                         $window.onscroll = scroll;
                     }
 
