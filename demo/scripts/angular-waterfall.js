@@ -17,8 +17,13 @@
                     }
 
                     if (scope.$last === true) {
-                        angular.element(element).ready(function(){
-                            scope.$emit("waterfall:repeatFinished");
+                        angular.element(element).ready(function() {
+                            var img = element.find("img")[0];
+                            var oImage = new Image();
+                            oImage.src = img.src;
+                            oImage.onload = function () {
+                                scope.$emit("waterfall:repeatFinished");
+                            }
                         });
                     }
                 }
@@ -88,6 +93,7 @@
                             oLis = element.find("li");
                         colWidth = scope.wrapWidth/minCols;
                         for (var m = 0; m < oLis.length; m++){
+
                             oLis[m].style.width = colWidth + "px";
                             oLis[m].style.opacity = "1";
                             oLis[m].style["-moz-opacity"] = "1";
@@ -99,6 +105,8 @@
                             var h = parseInt(oLis[i].offsetHeight);
                             scope.oLiHeight.push(h);
                         }
+
+
                         for (var k = minCols; k < oLis.length; k++){
                             var index = getMinKeyByArray(scope.oLiHeight);
                             oLis[k].style.top = scope.oLiHeight[index] +"px";
@@ -107,6 +115,7 @@
 //                            oLis[k].style["-moz-opacity"] = "1";
 //                            oLis[k].style["filter"] = "alpha(opacity=100)";
                             scope.oLiHeight[index] = scope.oLiHeight[index] + parseInt(oLis[k].offsetHeight)
+
                         }
                         scope.$emit("waterfall:colData",scope.oLiHeight);
                         var sorted = scope.oLiHeight.sort(function(a,b){
